@@ -35,3 +35,7 @@ Tài khoản demo (sau `seed_demo`):
 Health check: [http://localhost:8000/health/](http://localhost:8000/health/)
 
 `runserver` chỉ dùng local. Gunicorn ở Phase 4.
+
+## License
+
+Dự án được phân phối dưới giấy phép [MIT](LICENSE).
