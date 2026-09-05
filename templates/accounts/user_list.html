@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Người dùng · DevDesk{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Quản lý người dùng</h1>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Vai trò</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in users %}
+        <tr>
+          <td>{{ item.username }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.get_role_display }}</td>
+          <td>
+            <form class="d-flex gap-2" method="post" action="{% url 'accounts:user_role' item.pk %}">
+              {% csrf_token %}
+              <select name="role" class="form-select form-select-sm" style="max-width: 160px">
+                {% for value, label in item.Role.choices %}
+                  <option value="{{ value }}" {% if item.role == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn btn-sm btn-outline-primary" type="submit">Lưu</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

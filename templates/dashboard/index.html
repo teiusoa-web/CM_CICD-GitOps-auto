@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · DevDesk{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Dashboard</h1>
+<div class="row g-3 mb-4">
+  <div class="col-md-4 col-xl">
+    <div class="card"><div class="card-body"><div class="text-muted small">Tổng ticket</div><div class="fs-3">{{ total }}</div></div></div>
+  </div>
+  <div class="col-md-4 col-xl">
+    <div class="card"><div class="card-body"><div class="text-muted small">Mới</div><div class="fs-3">{{ new_count }}</div></div></div>
+  </div>
+  <div class="col-md-4 col-xl">
+    <div class="card"><div class="card-body"><div class="text-muted small">Đang xử lý</div><div class="fs-3">{{ in_progress_count }}</div></div></div>
+  </div>
+  <div class="col-md-4 col-xl">
+    <div class="card"><div class="card-body"><div class="text-muted small">Đã giải quyết</div><div class="fs-3">{{ resolved_count }}</div></div></div>
+  </div>
+  <div class="col-md-4 col-xl">
+    <div class="card"><div class="card-body"><div class="text-muted small">Quá hạn</div><div class="fs-3 text-danger">{{ overdue_count }}</div></div></div>
+  </div>
+</div>
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h6">Theo trạng thái</h2>
+        <ul class="list-group list-group-flush">
+          {% for label, count in by_status %}
+            <li class="list-group-item d-flex justify-content-between">
+              <span>{{ label }}</span>
+              <span>{{ count }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h6">Theo ưu tiên</h2>
+        <ul class="list-group list-group-flush">
+          {% for label, count in by_priority %}
+            <li class="list-group-item d-flex justify-content-between">
+              <span>{{ label }}</span>
+              <span>{{ count }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% if overdue_tickets %}
+<div class="card mt-3">
+  <div class="card-body">
+    <h2 class="h6">Ticket quá hạn</h2>
+    <ul class="mb-0">
+      {% for ticket in overdue_tickets %}
+        <li><a href="{% url 'tickets:detail' ticket.pk %}">#{{ ticket.pk }} {{ ticket.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
